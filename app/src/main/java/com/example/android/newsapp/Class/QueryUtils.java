@@ -109,14 +109,14 @@ public class QueryUtils {
             JSONObject responseObject = newsBaseObject.optJSONObject("response");
             JSONArray newsArray = responseObject.optJSONArray("results");
 
-            if (newsArray != null) {
                 for (int i = 0; i < newsArray.length(); i++) {
                     JSONObject arrayObject = newsArray.getJSONObject(i);
-                    //JSONObject propertiesObject = arrayObject.getJSONObject("");
-
                     String webTitle = arrayObject.getString("webTitle");
+                    String articleURL = arrayObject.getString("webUrl");
+                    String sectionName = arrayObject.getString("sectionName");
+                    String webPubDate = arrayObject.getString("webPublicationDate");
+                    news.add(new News(webTitle, articleURL, sectionName, webPubDate));
                 }
-            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing JSON data", e);
         }

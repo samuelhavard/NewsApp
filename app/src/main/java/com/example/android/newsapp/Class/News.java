@@ -7,11 +7,13 @@ public class News {
     private String mTitle;
     private String mArticleURL;
     private String mSectionName;
+    private String mWebPubDate;
 
-    News(String title, String articleURL, String sectionName) {
+    News(String title, String articleURL, String sectionName, String webPubDate) {
         mTitle = title;
         mArticleURL = articleURL;
         mSectionName = sectionName;
+        mWebPubDate = webPubDate;
     }
 
     public String getTitle() {
@@ -24,5 +26,9 @@ public class News {
 
     public String getSectionName() {
         return mSectionName;
+    }
+
+    public String getWebPubDate () {
+        return mWebPubDate;
     }
 }
