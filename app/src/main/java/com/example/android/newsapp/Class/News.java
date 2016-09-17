@@ -5,18 +5,24 @@ package com.example.android.newsapp.Class;
  */
 public class News {
     private String mTitle;
-    private String mBody;
+    private String mArticleURL;
+    private String mSectionName;
 
-    News(String title, String body) {
-        this.mTitle = title;
-        this.mBody = body;
+    News(String title, String articleURL, String sectionName) {
+        mTitle = title;
+        mArticleURL = articleURL;
+        mSectionName = sectionName;
     }
 
     public String getTitle() {
         return mTitle;
     }
 
-    public String getmBody() {
-        return mBody;
+    public String getArticleBody() {
+        return mArticleURL;
+    }
+
+    public String getSectionName() {
+        return mSectionName;
     }
 }

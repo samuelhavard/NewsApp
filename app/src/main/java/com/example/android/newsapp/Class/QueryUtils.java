@@ -106,15 +106,17 @@ public class QueryUtils {
 
         try {
             JSONObject newsBaseObject =  new JSONObject(newsJsonData);
-            JSONArray newsArray = newsBaseObject.optJSONArray("results");
+            JSONObject responseObject = newsBaseObject.optJSONObject("response");
+            JSONArray newsArray = responseObject.optJSONArray("results");
 
-            for(int i = 0; i < newsArray.length(); i++) {
-                JSONObject arrayObject = newsArray.getJSONObject(i);
-                //JSONObject propertiesObject = arrayObject.getJSONObject("");
+            if (newsArray != null) {
+                for (int i = 0; i < newsArray.length(); i++) {
+                    JSONObject arrayObject = newsArray.getJSONObject(i);
+                    //JSONObject propertiesObject = arrayObject.getJSONObject("");
 
-                String webTitle = arrayObject.getString("webTitle");
+                    String webTitle = arrayObject.getString("webTitle");
+                }
             }
-
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing JSON data", e);
         }
