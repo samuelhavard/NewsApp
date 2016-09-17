@@ -3,6 +3,7 @@ package com.example.android.newsapp.Class;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -105,6 +106,15 @@ public class QueryUtils {
 
         try {
             JSONObject newsBaseObject =  new JSONObject(newsJsonData);
+            JSONArray newsArray = newsBaseObject.optJSONArray("results");
+
+            for(int i = 0; i < newsArray.length(); i++) {
+                JSONObject arrayObject = newsArray.getJSONObject(i);
+                //JSONObject propertiesObject = arrayObject.getJSONObject("");
+
+                String webTitle = arrayObject.getString("webTitle");
+            }
+
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing JSON data", e);
         }

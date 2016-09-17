@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.android.newsapp.Class.News;
 import com.example.android.newsapp.Class.NewsLoader;
@@ -16,7 +17,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>>{
 
-    private static final String NEWS_URL = "";
+    public static final String LOG_TAG = MainActivity.class.getName();
+    private static final String NEWS_URL = "http://content.guardianapis.com/search?q=debates&api-key=test";
     private static final int NEWS_LOADER_ID = 1;
 
     @Override
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
+        Log.i(LOG_TAG, "Load Manager");
         if(networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
+        Log.i(LOG_TAG, "onCreateLoader");
         return new NewsLoader(this, NEWS_URL);
     }
 
