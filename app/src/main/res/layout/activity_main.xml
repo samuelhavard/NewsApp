@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.newsapp.Activity.MainActivity"
-    android:id="@+id/list">
+    android:id="@+id/list"
+    android:divider="#0D47A1"
+    android:dividerHeight="1dp">
 
 </ListView>
