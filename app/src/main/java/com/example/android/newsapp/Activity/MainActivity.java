@@ -4,9 +4,11 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +24,11 @@ import com.example.android.newsapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>>{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
     public static final String LOG_TAG = MainActivity.class.getName();
-    private static final String NEWS_URL = "http://content.guardianapis.com/search?q=debates&api-key=test";
+    private static final String API_KEY = "5c601e9d-2a56-4082-a2c8-068363f5fdc3";
+    private static final String NEWS_URL = "http://content.guardianapis.com/search";
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mNewsAdapter;
 
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        if(networkInfo != null && networkInfo.isConnected()) {
+        if (networkInfo != null && networkInfo.isConnected()) {
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         } else {
@@ -63,8 +66,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
-        Log.i(LOG_TAG, "onCreateLoader");
-        return new NewsLoader(this, NEWS_URL);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String defaultSearch = sharedPreferences.getString(
+                getString(R.string.settings_search_key),
+                getString(R.string.settings_search_default)
+        );
+
+        Uri baseUri = Uri.parse(NEWS_URL);
+        Uri.Builder builder = baseUri.buildUpon();
+
+        builder.appendQueryParameter("q", defaultSearch);
+        builder.appendQueryParameter("api-key" , API_KEY);
+
+        return new NewsLoader(this, builder.toString());
     }
 
     @Override
