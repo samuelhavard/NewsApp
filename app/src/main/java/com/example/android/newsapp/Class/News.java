@@ -20,7 +20,7 @@ public class News {
         return mTitle;
     }
 
-    public String getArticleBody() {
+    public String getURL() {
         return mArticleURL;
     }
 

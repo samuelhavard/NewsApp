@@ -36,7 +36,9 @@ public class NewsAdapter extends ArrayAdapter<News> {
         sectionTextView.setText(currentData.getSectionName());
 
         TextView pubDateTextView = (TextView) listItemView.findViewById(R.id.pub_date);
-        pubDateTextView.setText(currentData.getWebPubDate());
+        String pubDate = (currentData.getWebPubDate()).substring(0, 10);
+
+        pubDateTextView.setText(pubDate);
 
         return listItemView;
     }

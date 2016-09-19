@@ -2,12 +2,16 @@ package com.example.android.newsapp.Activity;
 
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.newsapp.Adapter.NewsAdapter;
@@ -34,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mNewsAdapter = new NewsAdapter(this, new ArrayList<News>());
         newsListView.setAdapter(mNewsAdapter);
 
-
-
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -46,6 +48,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
 
         }
+
+        newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                News currentNewsItem = mNewsAdapter.getItem(i);
+                Uri newsUri = Uri.parse(currentNewsItem.getURL());
+                Intent intent = new Intent(Intent.ACTION_VIEW, newsUri);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -67,4 +79,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(Loader<List<News>> loader) {
 
     }
+
+
 }
