@@ -1,7 +1,9 @@
 package com.example.android.newsapp.Class;
 
 /**
- * Created by samuelhavard on 9/17/16.
+ * The {@link News} class contains relevant information on a news article such as the article title,
+ * date it was published, category of news the article falls under and the URL to the article on
+ * the web.
  */
 public class News {
     private String mTitle;

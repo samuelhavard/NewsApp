@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.newsapp.Adapter.NewsAdapter;
 import com.example.android.newsapp.Class.News;
@@ -27,11 +29,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<News>> {
 
-    public static final String LOG_TAG = MainActivity.class.getName();
     private static final String API_KEY = "5c601e9d-2a56-4082-a2c8-068363f5fdc3";
     private static final String NEWS_URL = "http://content.guardianapis.com/search";
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mNewsAdapter;
+    private TextView mEmptyStateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mNewsAdapter = new NewsAdapter(this, new ArrayList<News>());
         newsListView.setAdapter(mNewsAdapter);
 
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        newsListView.setEmptyView(mEmptyStateTextView);
+
         ConnectivityManager connectivityManager = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -50,7 +55,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             LoaderManager loaderManager = getLoaderManager();
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
         } else {
-
+            View progressBar = (findViewById(R.id.progress_view));
+            progressBar.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_internet);
         }
 
         newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<News>> onCreateLoader(int id, Bundle args) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String defaultSearch = sharedPreferences.getString(
+        String searchString = sharedPreferences.getString(
                 getString(R.string.settings_search_key),
                 getString(R.string.settings_search_default)
         );
@@ -93,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri baseUri = Uri.parse(NEWS_URL);
         Uri.Builder builder = baseUri.buildUpon();
 
-        builder.appendQueryParameter("q", defaultSearch);
+        builder.appendQueryParameter("q", searchString);
         builder.appendQueryParameter("api-key" , API_KEY);
 
         return new NewsLoader(this, builder.toString());
@@ -101,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<News>> loader, List<News> data) {
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_view);
+        progressBar.setVisibility(View.GONE);
+
+        mEmptyStateTextView.setText(R.string.no_articles);
         mNewsAdapter.clear();
         if (data != null && !data.isEmpty()) {
             mNewsAdapter.addAll(data);

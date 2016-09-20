@@ -10,6 +10,9 @@ import android.os.Bundle;
 
 import com.example.android.newsapp.R;
 
+/**
+ * SettingsActivity is used to set the user preference using a{@link PreferenceFragment}
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -18,6 +21,10 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
     }
 
+    /**
+     * Inner Class NewsPreferenceFragment is a {@link PreferenceFragment} used to store the users
+     * search criteria.
+     */
     public static class NewsPreferenceFragment extends PreferenceFragment
             implements Preference.OnPreferenceChangeListener {
         @Override
@@ -29,6 +36,11 @@ public class SettingsActivity extends AppCompatActivity {
             bindPreferenceSummaryToValue(lastSearch);
         }
 
+        /**
+         * bindPreferenceSummaryToValue is a helper method used to bind the users preference in this
+         * case the last user search topic.
+         * @param preference is the users search topic
+         */
         private void bindPreferenceSummaryToValue(Preference preference) {
             preference.setOnPreferenceChangeListener(this);
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(preference.getContext());

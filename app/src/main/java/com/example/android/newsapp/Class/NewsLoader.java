@@ -6,12 +6,12 @@ import android.content.Context;
 import java.util.List;
 
 /**
- * Created by samuelhavard on 9/17/16.
+ * The {@link NewsLoader} class is a {@link AsyncTaskLoader} used to load the news
+ * articles onto the screen
  */
 public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     private String mUrl;
-    public static final String LOG_TAG = NewsLoader.class.getName();
 
     public NewsLoader(Context context, String url) {
         super(context);
@@ -28,7 +28,6 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
         if (mUrl == null) {
             return null;
         }
-        List<News> newsData = QueryUtils.extractNewsFeed(mUrl);
-        return newsData;
+        return QueryUtils.extractNewsFeed(mUrl);
     }
 }

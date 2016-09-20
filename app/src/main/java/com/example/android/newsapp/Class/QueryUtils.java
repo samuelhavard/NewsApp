@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by samuelhavard on 9/17/16.
+ * {@link QueryUtils} is a utility class that converts a {@link String} into a {@link URL}, makes
+ * the web call, prepares and finally parses the results of that web call.
  */
 public class QueryUtils {
 
@@ -27,6 +28,13 @@ public class QueryUtils {
 
     QueryUtils() {}
 
+    /**
+     * extractNewsFeed is a helper method displayed to the public to take a {@link String} as a URL and
+     * return a {@link List} of {@link News}
+     *
+     * @param url as a {@link String} passed to the helper method makeUrl
+     * @return a {@link List} of {@link News} objects to be displayed on the screen
+     */
     public static List<News> extractNewsFeed(String url) {
         String jsonResponse = null;
 
@@ -39,6 +47,12 @@ public class QueryUtils {
         return extractNewsFromJson(jsonResponse);
     }
 
+    /**
+     * makeUrl is a helper method used to convert a string into a usable {@link URL}
+     *
+     * @param urlString is a {@link String} to be converted to a {@link URL}
+     * @return a {@link URL} to be used in network calls
+     */
     private static URL makeUrl (String urlString) {
         URL url = null;
         try {
@@ -49,6 +63,15 @@ public class QueryUtils {
         return url;
     }
 
+    /**
+     * makeHttpConnection is a helper method used to make the http call to the web and send the
+     * web response to readFromInputStream to be converted from an {@link InputStream} to a
+     * {@link String} that can be parsed.
+     *
+     * @param url is a {@link URL} that is used to make network calls
+     * @return a JSON response from the web as a {@link String}
+     * @throws IOException
+     */
     private static String makeHttpConnection(URL url) throws IOException{
         String jsonResponse = "";
 
@@ -83,6 +106,15 @@ public class QueryUtils {
         return jsonResponse;
     }
 
+    /**
+     * readFromInputStream is a helper method used to convert the {@link InputStream} into a
+     * {@link StringBuilder} and finally returned as a string to be used later.
+     *
+     * @param inputStream is an {@link InputStream} from the helper method makeHttpConnection that
+     *                    had been returned from the web call.
+     * @return a {@link String}
+     * @throws IOException
+     */
     private static String readFromInputStream (InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -97,6 +129,13 @@ public class QueryUtils {
         return output.toString();
     }
 
+    /**
+     * extractNewsFromJson is a helper method used to parse usable data from the web response.
+     *
+     * @param newsJsonData is a web JSON response in the form of a {@link String} that is to be
+     *                     parsed.
+     * @return a {@link List} of {@link News}
+     */
     private static List<News> extractNewsFromJson (String newsJsonData) {
         List<News> news = new ArrayList<>();
 

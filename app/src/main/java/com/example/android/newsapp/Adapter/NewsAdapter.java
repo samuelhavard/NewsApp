@@ -13,7 +13,8 @@ import com.example.android.newsapp.R;
 import java.util.ArrayList;
 
 /**
- * Created by samue_000 on 9/18/2016.
+ * NewsAdapter is an adapter used in a list of type {@link News}.  The adapter sets the news article
+ * summary, date it was posted and category of news.
  */
 public class NewsAdapter extends ArrayAdapter<News> {
     public NewsAdapter(Context context, ArrayList<News> newsData) {
