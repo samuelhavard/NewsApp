@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String API_KEY = "5c601e9d-2a56-4082-a2c8-068363f5fdc3";
     private static final String NEWS_URL = "http://content.guardianapis.com/search";
+    private static final String API_TAGS = "contributor";
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mNewsAdapter;
     private TextView mEmptyStateTextView;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         builder.appendQueryParameter("q", searchString);
         builder.appendQueryParameter("api-key" , API_KEY);
+        builder.appendQueryParameter("show-tags", API_TAGS);
 
         return new NewsLoader(this, builder.toString());
     }

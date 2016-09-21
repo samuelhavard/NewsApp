@@ -26,7 +26,8 @@ public class QueryUtils {
 
     public static final String LOG_TAG = QueryUtils.class.getName();
 
-    QueryUtils() {}
+    QueryUtils() {
+    }
 
     /**
      * extractNewsFeed is a helper method displayed to the public to take a {@link String} as a URL and
@@ -53,7 +54,7 @@ public class QueryUtils {
      * @param urlString is a {@link String} to be converted to a {@link URL}
      * @return a {@link URL} to be used in network calls
      */
-    private static URL makeUrl (String urlString) {
+    private static URL makeUrl(String urlString) {
         URL url = null;
         try {
             url = new URL(urlString);
@@ -72,7 +73,7 @@ public class QueryUtils {
      * @return a JSON response from the web as a {@link String}
      * @throws IOException
      */
-    private static String makeHttpConnection(URL url) throws IOException{
+    private static String makeHttpConnection(URL url) throws IOException {
         String jsonResponse = "";
 
         if (url == null) {
@@ -115,7 +116,7 @@ public class QueryUtils {
      * @return a {@link String}
      * @throws IOException
      */
-    private static String readFromInputStream (InputStream inputStream) throws IOException {
+    private static String readFromInputStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
@@ -136,7 +137,7 @@ public class QueryUtils {
      *                     parsed.
      * @return a {@link List} of {@link News}
      */
-    private static List<News> extractNewsFromJson (String newsJsonData) {
+    private static List<News> extractNewsFromJson(String newsJsonData) {
         List<News> news = new ArrayList<>();
 
         if (TextUtils.isEmpty(newsJsonData)) {
@@ -144,18 +145,30 @@ public class QueryUtils {
         }
 
         try {
-            JSONObject newsBaseObject =  new JSONObject(newsJsonData);
+            JSONObject newsBaseObject = new JSONObject(newsJsonData);
             JSONObject responseObject = newsBaseObject.optJSONObject("response");
             JSONArray newsArray = responseObject.optJSONArray("results");
 
-                for (int i = 0; i < newsArray.length(); i++) {
-                    JSONObject arrayObject = newsArray.getJSONObject(i);
-                    String webTitle = arrayObject.getString("webTitle");
-                    String articleURL = arrayObject.getString("webUrl");
-                    String sectionName = arrayObject.getString("sectionName");
-                    String webPubDate = arrayObject.getString("webPublicationDate");
+            for (int i = 0; i < newsArray.length(); i++) {
+                JSONObject arrayObject = newsArray.getJSONObject(i);
+                String webTitle = arrayObject.getString("webTitle");
+                String articleURL = arrayObject.getString("webUrl");
+                String sectionName = arrayObject.getString("sectionName");
+                String webPubDate = arrayObject.getString("webPublicationDate");
+
+                if (arrayObject.has("tags")) {
+                    JSONArray tagArray = arrayObject.getJSONArray("tags");
+                    String[] author = new String[tagArray.length()];
+
+                    for (int j = 0; j < tagArray.length(); j++) {
+                        JSONObject tagObject = tagArray.getJSONObject(j);
+                        author[j] = tagObject.getString("webTitle");
+                    }
+                    news.add(new News(webTitle, articleURL, sectionName, webPubDate, author));
+                }else {
                     news.add(new News(webTitle, articleURL, sectionName, webPubDate));
                 }
+            }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing JSON data", e);
         }

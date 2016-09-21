@@ -10,12 +10,24 @@ public class News {
     private String mArticleURL;
     private String mSectionName;
     private String mWebPubDate;
+    private String[] mAuthor;
+    private boolean hasAuthor;
+
+    News(String title, String articleURL, String sectionName, String webPubDate, String[] author) {
+        mTitle = title;
+        mArticleURL = articleURL;
+        mSectionName = sectionName;
+        mWebPubDate = webPubDate;
+        mAuthor = author;
+        hasAuthor = true;
+    }
 
     News(String title, String articleURL, String sectionName, String webPubDate) {
         mTitle = title;
         mArticleURL = articleURL;
         mSectionName = sectionName;
         mWebPubDate = webPubDate;
+        hasAuthor = false;
     }
 
     public String getTitle() {
@@ -30,7 +42,15 @@ public class News {
         return mSectionName;
     }
 
-    public String getWebPubDate () {
+    public String getWebPubDate() {
         return mWebPubDate;
+    }
+
+    public String[] getAuthor() {
+        return mAuthor;
+    }
+
+    public boolean getHasAuthor() {
+        return hasAuthor;
     }
 }

@@ -38,8 +38,17 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         TextView pubDateTextView = (TextView) listItemView.findViewById(R.id.pub_date);
         String pubDate = (currentData.getWebPubDate()).substring(0, 10);
-
         pubDateTextView.setText(pubDate);
+
+        TextView authorTextView = (TextView) listItemView.findViewById(R.id.author_name);
+        if (currentData.getHasAuthor()) {
+            String[] authorArray = currentData.getAuthor();
+            for (int i = 0; i < authorArray.length; i++) {
+                authorTextView.setText(authorArray[i] + "\n");
+            }
+        } else {
+            authorTextView.setVisibility(View.GONE);
+        }
 
         return listItemView;
     }
