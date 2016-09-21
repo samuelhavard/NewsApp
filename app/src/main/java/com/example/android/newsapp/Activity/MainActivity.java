@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri.Builder builder = baseUri.buildUpon();
 
         builder.appendQueryParameter("q", searchString);
-        builder.appendQueryParameter("api-key" , API_KEY);
+        builder.appendQueryParameter("api-key", API_KEY);
         builder.appendQueryParameter("show-tags", API_TAGS);
 
         return new NewsLoader(this, builder.toString());

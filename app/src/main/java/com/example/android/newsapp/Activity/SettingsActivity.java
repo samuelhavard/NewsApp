@@ -39,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         /**
          * bindPreferenceSummaryToValue is a helper method used to bind the users preference in this
          * case the last user search topic.
+         *
          * @param preference is the users search topic
          */
         private void bindPreferenceSummaryToValue(Preference preference) {

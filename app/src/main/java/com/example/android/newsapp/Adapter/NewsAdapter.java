@@ -43,9 +43,14 @@ public class NewsAdapter extends ArrayAdapter<News> {
         TextView authorTextView = (TextView) listItemView.findViewById(R.id.author_name);
         if (currentData.getHasAuthor()) {
             String[] authorArray = currentData.getAuthor();
+            StringBuilder authors = new StringBuilder();
             for (int i = 0; i < authorArray.length; i++) {
-                authorTextView.setText(authorArray[i] + "\n");
+                authors.append(authorArray[i]);
+                if ((i + 1) < authorArray.length) {
+                    authors.append("\n");
+                }
             }
+            authorTextView.setText(authors);
         } else {
             authorTextView.setVisibility(View.GONE);
         }

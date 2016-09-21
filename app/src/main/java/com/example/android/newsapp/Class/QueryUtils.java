@@ -165,7 +165,7 @@ public class QueryUtils {
                         author[j] = tagObject.getString("webTitle");
                     }
                     news.add(new News(webTitle, articleURL, sectionName, webPubDate, author));
-                }else {
+                } else {
                     news.add(new News(webTitle, articleURL, sectionName, webPubDate));
                 }
             }
