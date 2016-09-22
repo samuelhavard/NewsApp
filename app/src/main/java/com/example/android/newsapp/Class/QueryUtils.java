@@ -26,9 +26,6 @@ public class QueryUtils {
 
     public static final String LOG_TAG = QueryUtils.class.getName();
 
-    QueryUtils() {
-    }
-
     /**
      * extractNewsFeed is a helper method displayed to the public to take a {@link String} as a URL and
      * return a {@link List} of {@link News}
