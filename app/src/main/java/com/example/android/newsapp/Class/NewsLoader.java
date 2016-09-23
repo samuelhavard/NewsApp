@@ -23,6 +23,10 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
         forceLoad();
     }
 
+    /**
+     *
+     * @return a list of {@link News} objects extracted from the web.
+     */
     @Override
     public List<News> loadInBackground() {
         if (mUrl == null) {
